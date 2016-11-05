@@ -1,1 +1,1 @@
-# yiiTraits
+# yiiComponents
