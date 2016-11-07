@@ -1,7 +1,7 @@
 <?php
-namespace Zlatov\yiiComponents\traits
+namespace Zlatov\yiiComponents\traits;
 
-use zlatov\yiiComponents\helpers\Text;
+use Zlatov\yiiComponents\helpers\Text;
 
 /**
  * Создание строкового идентификатора из другого поля или из себя
@@ -20,7 +20,7 @@ trait Sid
             !property_exists(get_class($this), $stringIdentifierName) ||
             !property_exists(get_class($this), $sourceName)
         ) {
-            throw new Exception("Одно из свойств объекта не существует (<var>$stringIdentifierName</var> <var>$sourceName</var>).");
+            throw new \Exception("Одно из свойств объекта не существует (<var>$stringIdentifierName</var> <var>$sourceName</var>).");
         }
 
         if ( empty($this->$stringIdentifierName) ) {
@@ -33,7 +33,7 @@ trait Sid
             $this->$stringIdentifierName = mb_substr(Text::translit($this->$stringIdentifierName), 0, 160);
         }
         if ( empty($this->$stringIdentifierName) ) {
-            throw new Exception("Строковый идентификатор по какой-то причине остался пуст.");
+            throw new \Exception("Строковый идентификатор по какой-то причине остался пуст.");
         }
         return true;
     }
