@@ -1,5 +1,5 @@
 <?php
-namespace zlatov\yiiComponents\helpers;
+namespace Zlatov\yiiComponents\helpers;
 
 class Text
 {

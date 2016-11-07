@@ -15,7 +15,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Zlatov\\yiiComponents\\": "src/"
+            "Zlatov\\yiiComponents\\": "src/",
+            "Zlatov\\yiiComponents\\traits\\": "src/traits/",
+            "Zlatov\\yiiComponents\\helpers\\": "src/helpers/",
         }
     }
 }
