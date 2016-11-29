@@ -9,7 +9,7 @@ class ViewTree extends Widget
     public $options;
     public function run()
     {
-        return $this->render('views/viewtree/index',[
+        return $this->render('viewtree/index',[
             'viewTree' => $this->viewTree,
             'options' => $this->options,
         ]);
