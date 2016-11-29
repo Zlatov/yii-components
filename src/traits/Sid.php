@@ -20,7 +20,7 @@ trait Sid
             !property_exists(get_class($this), $stringIdentifierName) ||
             !property_exists(get_class($this), $sourceName)
         ) {
-            throw new \Exception("Одно из свойств объекта не существует (<var>$stringIdentifierName</var> <var>$sourceName</var>).");
+            throw new \Exception("Одно из свойств объекта не существует ($stringIdentifierName $sourceName).");
         }
 
         if ( empty($this->$stringIdentifierName) ) {
