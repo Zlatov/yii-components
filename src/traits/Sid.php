@@ -16,16 +16,9 @@ trait Sid
      */
     public function sid($stringIdentifierName = 'sid', $sourceName = 'header')
     {
-        if (
-            !property_exists(get_class($this), $stringIdentifierName) ||
-            !property_exists(get_class($this), $sourceName)
-        ) {
-            throw new \Exception("Одно из свойств объекта не существует ($stringIdentifierName $sourceName).");
-        }
-
         if ( empty($this->$stringIdentifierName) ) {
             if ( empty($this->$sourceName) ) {
-                $this->addError($sourceName, "Источник для строкового идентификатора пуст (<var>$sourceName</var>)");
+                $this->addError($sourceName, "Источник для строкового идентификатора пуст ($sourceName)");
                 return false;
             }
             $this->$stringIdentifierName = mb_substr(Text::translit($this->$sourceName), 0, 160);
