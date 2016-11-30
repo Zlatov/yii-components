@@ -18,7 +18,8 @@
             "Zlatov\\yiiComponents\\": "src/",
             "Zlatov\\yiiComponents\\traits\\": "src/traits/",
             "Zlatov\\yiiComponents\\helpers\\": "src/helpers/",
-            "Zlatov\\yiiComponents\\widgets\\": "src/widgets/"
+            "Zlatov\\yiiComponents\\widgets\\": "src/widgets/",
+            "Zlatov\\yiiComponents\\assets\\": "src/assets/"
         }
     }
 }
