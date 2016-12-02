@@ -7,20 +7,119 @@ trait Tree
         'fnId' => 'id',
         'fnPid' => 'pid',
         'fnChildrens' => 'childrens',
+        'fnHeader' => 'header',
         'fnLevel' => 'level',
         'idOfTheRoot' => 0,
         'returnOnly' => null,
+        'clearFromNonRoot' => false,
+        'rootName' => 'Нет родителя (этот элемент корневой)',
+        'forSelect' => false,
     ];
 
-    // public static function toMultidimensional($array, $options['idOfTheRoot'] = 0, $options['fnPid'] = 'pid')
-    public static function toMultidimensional($array, $options = null)
+    private static function mergeOptions($options = null)
     {
         if ($options === null) {
             $options = self::$treeDefOptions;
         } else {
             $options = array_merge(self::$treeDefOptions, $options);
         }
+        return $options;
+    }
 
+    public static function treeMulti($options = null)
+    {
+        $options = self::mergeOptions($options);
+        $array = self::find()->asArray()->all();
+        return self::toMulti($array, $options);
+    }
+
+    public static function treeDimen($options = null)
+    {
+        $options = self::mergeOptions($options);
+        $multi = self::treeMulti($options);
+        return self::toDimen($multi, $options);
+    }
+
+    public static function treeSelect($options = null)
+    {
+        $options = self::mergeOptions($options);
+        $options['forSelect'] = true;
+        $dimen = self::treeDimen($options);
+        $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
+        return array_merge([0 => $options['rootName']], $select);
+    }
+
+    public function treeMultiWithout($options = null)
+    {
+        $options = self::mergeOptions($options);
+        $array = self::find()->where(['<>', $options['fnId'], $this->{$options['fnId']}])->asArray()->all();
+        $options['clearFromNonRoot'] = true;
+        return self::toMulti($array, $options);
+    }
+
+    public function treeDimenWithout($options = null)
+    {
+        $options = self::mergeOptions($options);
+        $multi = $this->treeMultiWithout($options);
+        return self::toDimen($multi, $options);
+    }
+
+    public function treeSelectWithout($options = null)
+    {
+        $options = self::mergeOptions($options);
+        $options['forSelect'] = true;
+        $dimen = $this->treeDimenWithout($options);
+        // echo "<pre>";
+        // print_r($dimen);
+        // echo "</pre>";
+        $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
+        // echo "<pre>";
+        // print_r($select);
+        // echo "</pre>";
+        // die();
+        return array_merge([0 => $options['rootName']], $select);
+    }
+
+    public static function toDimen($array, $options = null)
+    {
+        $options = self::mergeOptions($options);
+        $dimen = [];
+        $level = 1;
+        $parentMulti[$level] = $array;
+        $parentCount[$level] = count($array);
+        $parentIndex[$level] = 0;
+        while ($level >= 1) {
+            $mode = each($parentMulti[$level]);
+            if ($mode !== false) {
+                $parentIndex[$level] ++;
+                $temp = $mode[1];
+                unset($temp[$options['fnChildrens']]);
+                if ($options['forSelect']) {
+                    $pre = '';
+                    for ($l=1; $l < $level; $l++) { 
+                        $pre.= ($parentCount[$l]===$parentIndex[$l])?"   ":"┃  ";
+                    }
+                    $pre.= (($parentIndex[$level]) === $parentCount[$level])?"┗━":"┣━";
+                    $pre.= count($mode[1][$options['fnChildrens']])?"━┳":"━━";
+                    $temp[$options['fnHeader']] = $pre . $temp[$options['fnHeader']];
+                }
+                $dimen[$mode[1][$options['fnId']]] = $temp;
+                if ( count($mode[1][$options['fnChildrens']]) ) {
+                    $level++;
+                    $parentMulti[$level] = $mode[1][$options['fnChildrens']];
+                    $parentCount[$level] = count($mode[1][$options['fnChildrens']]);
+                    $parentIndex[$level] = 0;
+                }
+            } else {
+                $level--;
+            }
+        }
+        return $dimen;
+    }
+
+    public static function toMulti($array, $options = null)
+    {
+        $options = self::mergeOptions($options);
         $return = [];
         $cache = [];
         // Для каждого элемента
@@ -29,7 +128,7 @@ trait Tree
             // тогда создаем родителя в возврат а ссылку в кэш
             if (!isset($cache[$value[$options['fnPid']]]) && ($value[$options['fnPid']] != $options['idOfTheRoot'])) {
                 if ($options['returnOnly'] === null) {
-                    $temp = $value;
+                    $temp = array_fill_keys(array_keys($value), null);
                 } else {
                     $temp = [];
                     foreach ($options['returnOnly'] as $fieldName) {
@@ -99,6 +198,13 @@ trait Tree
                     $return[$value[$options['fnId']]] = $temp;
                     // Вставляем в кэш ссылку на элемент
                     $cache[$value[$options['fnId']]] = &$return[$value[$options['fnId']]];
+                }
+            }
+        }
+        if ($options['clearFromNonRoot']) {
+            foreach ($return as $key => $value) {
+                if ($value[$options['fnPid']] === null) {
+                    unset($return[$key]);
                 }
             }
         }

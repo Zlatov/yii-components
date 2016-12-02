@@ -11,6 +11,11 @@ class ViewTree extends Widget
         'childrens' => 'childrens',
         'echo' => ['header'],
         'drop' => true,
+        'admin' => false,
+        'actionUpdate' => 'update',
+        'actionDelete' => 'delete',
+        'actionView' => 'view',
+        'modelId' => 'id',
     ];
 
     public function init()
@@ -22,6 +27,10 @@ class ViewTree extends Widget
         } else {
             $this->options = array_merge(self::$defOptions, $this->options);
         }
+        // echo "<pre>";
+        // print_r($this->options);
+        // echo "</pre>";
+        // die();
     }
 
     public function run()

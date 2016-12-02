@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Html;
 use Zlatov\yiiComponents\assets\ViewTreeAsset;
 ViewTreeAsset::register($this);
 
@@ -17,10 +17,47 @@ while ($level >= 0) {
         foreach ($options['echo'] as $value) {
             $echo[] = $mode[1][$value];
         }
+        if ($options['admin']) {
+            $echo[0] = Html::a(
+                $echo[0],
+                [
+                    Yii::$app->controller->id . '/' . $options['actionView'],
+                    'id' => $mode[1][$options['modelId']],
+                ],
+                ['class' => 'btn btn-info btn-xs']
+            );
+            $echo['update'] = Html::a(
+                '<span class="glyphicon glyphicon-pencil"></span>',
+                [
+                    Yii::$app->controller->id . '/' . $options['actionUpdate'],
+                    'id' => $mode[1][$options['modelId']],
+                ],
+                ['class' => 'btn btn-primary btn-xs']
+            );
+            $echo['delete'] = Html::a(
+                '<span class="glyphicon glyphicon-trash"></span>',
+                [
+                    Yii::$app->controller->id . '/' . $options['actionDelete'],
+                    'id' => $mode[1][$options['modelId']],
+                ],
+                ['class' => 'btn btn-danger btn-xs']
+            );
+        }
         echo $this->render('li', [
             'tab' => str_repeat("    ", $level*2 + 1),
             'echo' => $echo,
         ]);
+        // echo "<pre>";
+        // print_r(Yii::$app->controller->id);
+        // echo "</pre>";
+        // echo "<pre>";
+        // print_r(Yii::$app->controller->action->id);
+        // echo "</pre>";
+        // die();
+        // echo "<pre>";
+        // print_r($options);
+        // echo "</pre>";
+        // die();
 
         if (count($mode[1][$options['childrens']])) {
             $level++;
