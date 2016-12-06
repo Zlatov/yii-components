@@ -10,4 +10,19 @@ $(document).ready(function(){
 		}
 	});
 	$(".viewTreeDrop").find("ul").slideUp(400).parents("li").children("div.drop").css({'background-position':"0 0"});
+
+	$(".viewTreeToggle").click(
+			function (event) {
+				// console.log($(event.target).parent().eq(0).next(".viewTree"));
+				var button = $(event.target);
+				var tree = $(event.target).parent().eq(0).next(".viewTree");
+				if (button.hasClass("show")) {
+					tree.find("ul").slideDown(400).parents("li").children("div.drop").css({'background-position':"-11px 0"});
+					button.removeClass("show");
+				} else {
+					tree.find("ul").slideUp(400).parents("li").children("div.drop").css({'background-position':"0 0"});
+					button.addClass("show");
+				}
+			}
+	);
 });

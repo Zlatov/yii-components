@@ -10,13 +10,13 @@ trait Tree
         'fnHeader' => 'header',
         'fnLevel' => 'level',
         'idOfTheRoot' => 0,
-        'returnOnly' => null,
-        'clearFromNonRoot' => false,
+        'returnOnly' => null, // Массив полей необходимых пользователю
+        'clearFromNonRoot' => true,
         'rootName' => 'Нет родителя (этот элемент корневой)',
         'forSelect' => false,
     ];
 
-    private static function mergeOptions($options = null)
+    private static function mergeOptions($options = [])
     {
         if ($options === null) {
             $options = self::$treeDefOptions;
@@ -26,21 +26,21 @@ trait Tree
         return $options;
     }
 
-    public static function treeMulti($options = null)
+    public static function treeMulti($options = [])
     {
         $options = self::mergeOptions($options);
         $array = self::find()->asArray()->all();
         return self::toMulti($array, $options);
     }
 
-    public static function treeDimen($options = null)
+    public static function treeDimen($options = [])
     {
         $options = self::mergeOptions($options);
         $multi = self::treeMulti($options);
         return self::toDimen($multi, $options);
     }
 
-    public static function treeSelect($options = null)
+    public static function treeSelect($options = [])
     {
         $options = self::mergeOptions($options);
         $options['forSelect'] = true;
@@ -49,7 +49,7 @@ trait Tree
         return array_merge([0 => $options['rootName']], $select);
     }
 
-    public function treeMultiWithout($options = null)
+    public function treeMultiWithout($options = [])
     {
         $options = self::mergeOptions($options);
         $array = self::find()->where(['<>', $options['fnId'], $this->{$options['fnId']}])->asArray()->all();
@@ -57,30 +57,23 @@ trait Tree
         return self::toMulti($array, $options);
     }
 
-    public function treeDimenWithout($options = null)
+    public function treeDimenWithout($options = [])
     {
         $options = self::mergeOptions($options);
         $multi = $this->treeMultiWithout($options);
         return self::toDimen($multi, $options);
     }
 
-    public function treeSelectWithout($options = null)
+    public function treeSelectWithout($options = [])
     {
         $options = self::mergeOptions($options);
         $options['forSelect'] = true;
         $dimen = $this->treeDimenWithout($options);
-        // echo "<pre>";
-        // print_r($dimen);
-        // echo "</pre>";
         $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
-        // echo "<pre>";
-        // print_r($select);
-        // echo "</pre>";
-        // die();
         return array_merge([0 => $options['rootName']], $select);
     }
 
-    public static function toDimen($array, $options = null)
+    public static function toDimen($array, $options = [])
     {
         $options = self::mergeOptions($options);
         $dimen = [];
@@ -117,7 +110,7 @@ trait Tree
         return $dimen;
     }
 
-    public static function toMulti($array, $options = null)
+    public static function toMulti($array, $options = [])
     {
         $options = self::mergeOptions($options);
         $return = [];
@@ -209,5 +202,18 @@ trait Tree
             }
         }
         return $return;
+    }
+
+    /**
+     * Проверяет наличие детей у узла
+     * @return boolean 
+     */
+    public function treeHasChildren()
+    {
+        $childrens = self::find()->where([self::$treeSettings['fnPid'] => $this->{self::$treeSettings['fnId']} ])->all();
+        if ($childrens) {
+            return true;
+        }
+        return false;
     }
 }
