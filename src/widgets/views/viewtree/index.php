@@ -5,6 +5,7 @@ ViewTreeAsset::register($this);
 
 echo '<ul class="viewTree';
 echo $options['drop']?' viewTreeDrop':'';
+echo $options['toggleSlide']?' viewTreeToggleSlide':'';
 echo '">' . PHP_EOL;
 
 $level = 0;
@@ -24,7 +25,9 @@ while ($level >= 0) {
                     Yii::$app->controller->id . '/' . $options['actionView'],
                     'id' => $mode[1][$options['modelId']],
                 ],
-                ['class' => 'btn btn-info btn-xs']
+                [
+                    // 'class' => 'btn btn-default btn-xs',
+                ]
             );
             $echo['update'] = Html::a(
                 '<span class="glyphicon glyphicon-pencil"></span>',
@@ -32,7 +35,7 @@ while ($level >= 0) {
                     Yii::$app->controller->id . '/' . $options['actionUpdate'],
                     'id' => $mode[1][$options['modelId']],
                 ],
-                ['class' => 'btn btn-primary btn-xs']
+                ['class' => 'btn btn-default btn-xs']
             );
             $echo['delete'] = Html::a(
                 '<span class="glyphicon glyphicon-trash"></span>',
@@ -40,7 +43,7 @@ while ($level >= 0) {
                     Yii::$app->controller->id . '/' . $options['actionDelete'],
                     'id' => $mode[1][$options['modelId']],
                 ],
-                ['class' => 'btn btn-danger btn-xs']
+                ['class' => 'btn btn-default btn-xs']
             );
         }
         echo $this->render('li', [
