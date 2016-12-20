@@ -8,14 +8,15 @@ class ViewTree extends Widget
     public $viewTree;
     public $options;
     private static $defOptions = [
-        'childrens' => 'childrens',
-        'echo' => ['header'],
-        'drop' => true,
-        'admin' => false,
+        'childrens'    => 'childrens', // Тут хранятся дети
+        'echo'         => ['header'],  // Массив полей для вывода в интерфейс
+        'drop'         => true,        // Вывод дерева с плюсиками или нет
+        'toggleSlide'  => true,        // Вывод кнопки разворачивания/сворачивания всего дерева
+        'admin'        => false,       // Выводить ли кнопки администрирования
         'actionUpdate' => 'update',
         'actionDelete' => 'delete',
-        'actionView' => 'view',
-        'modelId' => 'id',
+        'actionView'   => 'view',
+        'modelId'      => 'id',
     ];
 
     public function init()
