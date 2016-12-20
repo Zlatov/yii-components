@@ -46,7 +46,7 @@ trait Tree
         $options['forSelect'] = true;
         $dimen = self::treeDimen($options);
         $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
-        return array_merge([0 => $options['rootName']], $select);
+        return $select = [0 => $options['rootName']] + $select;
     }
 
     public function treeMultiWithout($options = [])
@@ -70,7 +70,7 @@ trait Tree
         $options['forSelect'] = true;
         $dimen = $this->treeDimenWithout($options);
         $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
-        return array_merge([0 => $options['rootName']], $select);
+        return [null => $options['rootName']] + $select;
     }
 
     public static function toDimen($array, $options = [])
@@ -196,7 +196,7 @@ trait Tree
         }
         if ($options['clearFromNonRoot']) {
             foreach ($return as $key => $value) {
-                if ($value[$options['fnPid']] === null) {
+                if ($value[$options['fnHeader']] === null) {
                     unset($return[$key]);
                 }
             }
