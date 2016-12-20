@@ -11,18 +11,37 @@ $(document).ready(function(){
 	});
 	$(".viewTreeDrop").find("ul").slideUp(400).parents("li").children("div.drop").css({'background-position':"0 0"});
 
-	$(".viewTreeToggle").click(
-			function (event) {
-				// console.log($(event.target).parent().eq(0).next(".viewTree"));
-				var button = $(event.target);
-				var tree = $(event.target).parent().eq(0).next(".viewTree");
-				if (button.hasClass("show")) {
-					tree.find("ul").slideDown(400).parents("li").children("div.drop").css({'background-position':"-11px 0"});
-					button.removeClass("show");
-				} else {
-					tree.find("ul").slideUp(400).parents("li").children("div.drop").css({'background-position':"0 0"});
-					button.addClass("show");
-				}
+	$(".viewTreeToggleSlide").before('<p><span class="viewTreeToggleSlideButton btn btn-default btn-xs">Развернуть</span></p>');
+
+	/**
+	 * Устанавливаем на кнопке флаг разрешающий запустить анимацию сворачивания/разворачивания
+	 */
+	var viewTreeStopListen = function () {
+		var button = $(this).parents(".viewTree").eq(0).prev().children("span.viewTreeToggleSlideButton")[0];
+		button.haveAnimate = false;
+	}
+
+	/**
+	 * Сворачиваем или разворачиваем всё дерево только в том случае, если дерево в данный момент не анимируется
+	 * jQuery.Event event событие при клике на кнопку
+	 */
+	var viewTreeSlider = function (event) {
+		console.log(event);
+		var button = $(event.target);
+		var tree = $(event.target).parent().eq(0).next(".viewTree");
+		if (!event.target.haveAnimate) {
+			event.target.haveAnimate = true; // Установим флаг запуска анимации
+			if ( button.text() === 'Развернуть' ) {
+				tree.find("ul").slideDown(400, viewTreeStopListen ).parents("li").children("div.drop").css({'background-position':"-11px 0"});
+				button.text('Свернуть');
+			} else {
+				tree.find("ul").slideUp(400, viewTreeStopListen ).parents("li").children("div.drop").css({'background-position':"0 0"});
+				button.text('Развернуть');
 			}
+		}
+	};
+
+	$(".viewTreeToggleSlideButton").click(
+		viewTreeSlider
 	);
 });
