@@ -1,7 +1,23 @@
 <?php
 use yii\helpers\Html;
+use yii\bootstrap\Alert;
 use Zlatov\yiiComponents\assets\ViewTreeAsset;
+
 ViewTreeAsset::register($this);
+
+if ( $model && $model->errors && count($model->errors) ) {
+    $errors = '';
+    foreach ($model->errors as $key => $arrayOfErrors) {
+        $errors.= implode('</p><p>', $arrayOfErrors);
+    }
+    $errors = '<p>' . $errors . '</p>';
+    echo Alert::widget([
+        'options' => [
+            'class' => 'alert-danger',
+        ],
+        'body' => $errors,
+    ]);
+}
 
 echo '<ul class="viewTree';
 echo $options['drop']?' viewTreeDrop':'';

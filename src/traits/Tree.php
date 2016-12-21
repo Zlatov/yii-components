@@ -3,17 +3,24 @@ namespace Zlatov\yiiComponents\traits;
 
 trait Tree
 {
+    /**
+     * Настройки расширения можно (нужно) скопировать измененные в расширяемый класс
+     */
     private static $treeDefOptions = [
         'fnId' => 'id',
         'fnPid' => 'pid',
         'fnChildrens' => 'childrens',
         'fnHeader' => 'header',
         'fnLevel' => 'level',
-        'idOfTheRoot' => 0,
+        'idOfTheRoot' => null,
         'returnOnly' => null, // Массив полей необходимых пользователю
         'clearFromNonRoot' => true,
         'rootName' => 'Нет родителя (этот элемент корневой)',
         'forSelect' => false,
+        'order' => [
+            'level' => SORT_ASC,
+            'order' => SORT_ASC,
+        ],
     ];
 
     private static function mergeOptions($options = [])
@@ -29,7 +36,7 @@ trait Tree
     public static function treeMulti($options = [])
     {
         $options = self::mergeOptions($options);
-        $array = self::find()->asArray()->all();
+        $array = self::find()->orderBy($options['order'])->asArray()->all();
         return self::toMulti($array, $options);
     }
 
@@ -46,13 +53,13 @@ trait Tree
         $options['forSelect'] = true;
         $dimen = self::treeDimen($options);
         $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
-        return $select = [0 => $options['rootName']] + $select;
+        return $select = [$options['idOfTheRoot'] => $options['rootName']] + $select;
     }
 
     public function treeMultiWithout($options = [])
     {
         $options = self::mergeOptions($options);
-        $array = self::find()->where(['<>', $options['fnId'], $this->{$options['fnId']}])->asArray()->all();
+        $array = self::find()->orderBy($options['order'])->where(['<>', $options['fnId'], $this->{$options['fnId']}])->asArray()->all();
         $options['clearFromNonRoot'] = true;
         return self::toMulti($array, $options);
     }
@@ -70,7 +77,7 @@ trait Tree
         $options['forSelect'] = true;
         $dimen = $this->treeDimenWithout($options);
         $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
-        return [null => $options['rootName']] + $select;
+        return [$options['idOfTheRoot'] => $options['rootName']] + $select;
     }
 
     public static function toDimen($array, $options = [])

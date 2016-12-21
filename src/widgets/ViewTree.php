@@ -7,6 +7,8 @@ class ViewTree extends Widget
 {
     public $viewTree;
     public $options;
+    public $model;
+
     private static $defOptions = [
         'childrens'    => 'childrens', // Тут хранятся дети
         'echo'         => ['header'],  // Массив полей для вывода в интерфейс
@@ -39,6 +41,7 @@ class ViewTree extends Widget
         return $this->render('viewtree/index',[
             'viewTree' => $this->viewTree,
             'options' => $this->options,
+            'model' => $this->model,
         ]);
     }
 }
