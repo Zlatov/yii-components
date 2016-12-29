@@ -13,6 +13,7 @@ trait Tree
         'fnHeader' => 'header',
         'fnLevel' => 'level',
         'idOfTheRoot' => null,
+        'addRoot' => false, // В массив для тега select добавить первый option со значением "без родителя"
         'returnOnly' => null, // Массив полей необходимых пользователю
         'clearFromNonRoot' => true,
         'rootName' => 'Нет родителя (этот элемент корневой)',
@@ -53,7 +54,10 @@ trait Tree
         $options['forSelect'] = true;
         $dimen = self::treeDimen($options);
         $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
-        return $select = [$options['idOfTheRoot'] => $options['rootName']] + $select;
+        if ($options['addRoot']) {
+            $select = [$options['idOfTheRoot'] => $options['rootName']] + $select;
+        }
+        return $select;
     }
 
     public function treeMultiWithout($options = [])
@@ -77,7 +81,10 @@ trait Tree
         $options['forSelect'] = true;
         $dimen = $this->treeDimenWithout($options);
         $select = array_column($dimen, $options['fnHeader'], $options['fnId']);
-        return [$options['idOfTheRoot'] => $options['rootName']] + $select;
+        if ($options['addRoot']) {
+            $select = [$options['idOfTheRoot'] => $options['rootName']] + $select;
+        }
+        return $select;
     }
 
     public static function toDimen($array, $options = [])
