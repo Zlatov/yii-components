@@ -3,7 +3,10 @@ use yii\helpers\Html;
 use yii\bootstrap\Alert;
 use Zlatov\yiiComponents\assets\ViewTreeAsset;
 
-ViewTreeAsset::register($this);
+$viewTreeAsset = ViewTreeAsset::register($this);
+if (is_array($options['assetDepends'])) {
+    $viewTreeAsset->depends = array_merge($viewTreeAsset->depends,$options['assetDepends']);
+}
 
 if ( $model && $model->errors && count($model->errors) ) {
     $errors = '';

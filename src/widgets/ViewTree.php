@@ -19,6 +19,7 @@ class ViewTree extends Widget
         'actionDelete' => 'delete',
         'actionView'   => 'view',
         'modelId'      => 'id',
+        'assetDepends' => null,
     ];
 
     public function init()
