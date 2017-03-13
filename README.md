@@ -1,6 +1,22 @@
 # yiiComponents
+
+1. Поведения (behaviors)
+    * [Sid](#beh_sid)
+2. Примеси (traits)
+    * [Sid](#tra_sid)
+    * [Tree](#tra_tree)
+3. Виджеты (widgets)
+    * [ViewTree](#wid_viewtree)
+4. Хелперы (helpers)
+    * [Text](#hel_text)
+5. Ресурсы (assets)
+    * [ViewTree](#ass_viewtree)
+    * [ViewTreeSelect](#ass_viewtreeselect)
+
+***
+
 ## Поведения (behaviors)
-### Sid
+### Sid <a name="beh_sid"></a>
 Перед валидацией экземпляра класса генерирует строковый идентификатор из указанного атрибута, тем самым давая возможность в модели указывать строковый идентификатор как необязательное поле при определенных сценариях.
 
 __Использование__
@@ -41,18 +57,18 @@ use \Zlatov\yiiComponents\behaviors\Sid;
     }
 ```
 ## Примеси (traits)
-### Sid
-### Tree
+### Sid <a name="tra_sid"></a>
+### Tree <a name="tra_tree"></a>
 ## Виджеты (widgets)
-### ViewTree
+### ViewTree <a name="wid_viewtree"></a>
 ## Хелперы (helpers)
-### Text
-## Ресурсы (Assets)
-### ViewTree
+### Text <a name="hel_text"></a>
+## Ресурсы (assets)
+### ViewTree <a name="ass_viewtree"></a>
 ```php
 <?= ViewTree::widget([
 	'ztree' => $current_menu,
 	'current_id' => $model->id,
 ]) ?>
 ```
-### ViewTreeSelect
+### ViewTreeSelect <a name="ass_viewtreeselect"></a>
