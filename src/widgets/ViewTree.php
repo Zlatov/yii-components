@@ -31,10 +31,6 @@ class ViewTree extends Widget
         } else {
             $this->options = array_merge(self::$defOptions, $this->options);
         }
-        // echo "<pre>";
-        // print_r($this->options);
-        // echo "</pre>";
-        // die();
     }
 
     public function run()

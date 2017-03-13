@@ -35,7 +35,16 @@ while ($level >= 0) {
 
         $echo = [];
         foreach ($options['echo'] as $value) {
-            $echo[] = $mode[1][$value];
+            if (is_array($value)) {
+                $href = [];
+                $href[] = $value['path'];
+                foreach ($value['path_params'] as $paramkey => $paramvalue) {
+                    $href[$paramkey] = $mode[1][$paramvalue];
+                }
+                $echo[] = Html::a($mode[1][$value['text']], $href, $value['attr']);
+            } else {
+                $echo[] = $mode[1][$value];
+            }
         }
         if ($options['admin']) {
             $echo[0] = Html::a(
