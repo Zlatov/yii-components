@@ -1,11 +1,10 @@
 # yiiComponents
-***
 ## Поведения (behaviors)
 ### Sid
 Перед валидацией экземпляра класса генерирует строковый идентификатор из указанного атрибута, тем самым давая возможность в модели указывать строковый идентификатор как необязательное поле при определенных сценариях.
 
 __Использование__
-```
+```php
 use \Zlatov\yiiComponents\behaviors\Sid;
 
 ...
@@ -41,20 +40,16 @@ use \Zlatov\yiiComponents\behaviors\Sid;
         ];
     }
 ```
-***
 ## Примеси (traits)
 ### Sid
 ### Tree
-***
 ## Виджеты (widgets)
 ### ViewTree
-***
 ## Хелперы (helpers)
 ### Text
-***
 ## Ресурсы (Assets)
 ### ViewTree
-```
+```php
 <?= ViewTree::widget([
 	'ztree' => $current_menu,
 	'current_id' => $model->id,
