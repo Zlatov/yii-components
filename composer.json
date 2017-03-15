@@ -1,16 +1,19 @@
 {
     "name": "zlatov/yii-components",
-    "description": "Some traits for yii2",
+    "description": "Некоторые дополнения для yii2",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Maksim Zlatov",
-            "email": "zlatov@ya.ru"
+            "name": "Максим Златов",
+            "email": "zlatov@ya.ru",
+            "homepage": "http://zlatov.net",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "dev",
     "require": {
+        "yiisoft/yii2": "^2.0",
         "php": ">=5.4.0"
     },
     "autoload": {
