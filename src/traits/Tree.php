@@ -26,10 +26,15 @@ trait Tree
 
     private static function mergeOptions($options = [])
     {
-        if ($options === null) {
-            $options = self::$treeDefOptions;
+        if (isset(self::$treeOprions)&&self::$treeOprions!==null) {
+            $calssOptions = self::$treeOptions;
         } else {
-            $options = array_merge(self::$treeDefOptions, $options);
+            $calssOptions = self::$treeDefOptions;
+        }
+        if ($options === null) {
+            $options = $calssOptions;
+        } else {
+            $options = array_merge($calssOptions, $options);
         }
         return $options;
     }
