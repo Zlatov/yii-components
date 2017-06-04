@@ -1,0 +1,8 @@
+.form-group.required .control-label:after { 
+    font-family: 'Glyphicons Halflings';
+    content: " \2a";
+    font-size: .7em;
+    font-weight: normal;
+    vertical-align: top;
+    color: #a94442;
+}

@@ -10,8 +10,9 @@
 4. Хелперы (helpers)
     * [Text](#hel_text)
 5. Ресурсы (assets)
-    * [ViewTree](#ass_viewtree)
-    * [ViewTreeSelect](#ass_viewtreeselect)
+    * [ViewTreeAsset](#ass_viewtreeasset)
+    * [ViewTreeSelectAsset](#ass_viewtreeselectasset)
+    * [FormAsset](#ass_formasset)
 
 ***
 
@@ -56,11 +57,16 @@ use \Zlatov\yiiComponents\behaviors\Sid;
 ## Хелперы (helpers)
 ### Text <a name="hel_text"></a>
 ## Ресурсы (assets)
-### ViewTree <a name="ass_viewtree"></a>
+### ViewTreeAsset <a name="ass_viewtreeasset"></a>
 ```php
 <?= ViewTree::widget([
 	'ztree' => $current_menu,
 	'current_id' => $model->id,
 ]) ?>
 ```
-### ViewTreeSelect <a name="ass_viewtreeselect"></a>
+### ViewTreeSelectAsset <a name="ass_viewtreeselectasset"></a>
+### FormAsset <a name="ass_formasset"></a>
+Использование
+```
+Zlatov\yiiComponents\assets\FormAsset::register($this);
+```
