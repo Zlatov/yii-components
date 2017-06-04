@@ -34,7 +34,6 @@ use \Zlatov\yiiComponents\behaviors\Sid;
             'sid' => [
                 'class' => Sid::className(),
                 'in_attribute' => 'header',
-                'out_attribute' => 'sid',
             ],
 
             ...
@@ -46,14 +45,7 @@ use \Zlatov\yiiComponents\behaviors\Sid;
 
     public function rules()
     {
-        return [
-            ...
-            ['sid', 'required', 'on' => ['default']],
-            ['sid', 'unique', 'on' => ['default']],
-            ['sid', 'string', 'max' => 160, 'on' => ['default']],
-            ['sid', 'safe', 'on' => [self::SCENARIO_CREATE]],
-            ...
-        ];
+        return Sid::calcRules(parent::rules());
     }
 ```
 ## Примеси (traits)
