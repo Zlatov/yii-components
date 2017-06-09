@@ -52,6 +52,54 @@ use \Zlatov\yiiComponents\behaviors\Sid;
 ## Примеси (traits)
 ### Sid <a name="tra_sid"></a>
 ### Tree <a name="tra_tree"></a>
+Предоставляет модели методы получающие данные из базы и преобразующие их для удобного вывода в виде дерева.
+#### Использование
+__Модель__
+```
+class ...
+{
+    use \Zlatov\yiiComponents\traits\Tree;
+
+    private static $treeOptions = [
+        'fnId' => 'id',
+        'fnPid' => 'pid',
+        'fnChildrens' => 'childrens',
+        'fnHeader' => 'header',
+        'fnLevel' => 'level',
+        'idOfTheRoot' => null,
+        'addRoot' => false,
+        'returnOnly' => null,
+        'clearFromNonRoot' => true,
+        'rootName' => 'Нет родителя (этот элемент корневой)',
+        'forSelect' => false,
+        'order' => [
+            'level' => SORT_ASC,
+            'order' => SORT_ASC,
+        ],
+    ];
+```
+__Контроллер__
+```
+    public function actionIndex()
+    {
+        $sections = Section::treeMulti();
+
+        return $this->render('index', [
+            'sections' => $sections,
+        ]);
+    }
+```
+__Представление__
+```
+    <?= Zlatov\yiiComponents\widgets\ViewTree::widget([
+        'viewTree' => $sections,
+        'options' => [
+            'admin' => true,
+        ],
+        'model' => null
+    ]) ?>
+```
+
 ## Виджеты (widgets)
 ### ViewTree <a name="wid_viewtree"></a>
 ## Хелперы (helpers)

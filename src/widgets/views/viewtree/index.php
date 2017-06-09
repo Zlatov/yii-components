@@ -43,7 +43,7 @@ while ($level >= 0) {
                 }
                 $echo[] = Html::a($mode[1][$value['text']], $href, $value['attr']);
             } else {
-                $echo[] = $mode[1][$value];
+                $echo[] = Html::encode($mode[1][$value]);
             }
         }
         if ($options['admin']) {
